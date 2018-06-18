@@ -958,7 +958,7 @@ func changeMapToURLValues(data map[string]interface{}) url.Values {
 //    }
 //    gorequest.New().Get("http://www..google.com").End(printBody)
 //
-func (s *SuperAgent) End(callback ...func(response Response, body string, errs []error)) (Response, string, []error) {
+func (s *SuperAgent) End(callback ...func(response Response, body string, errs []error)) (*http.Response, string, []error) {
 	var bytesCallback []func(response Response, body []byte, errs []error)
 	if len(callback) > 0 {
 		bytesCallback = []func(response Response, body []byte, errs []error){
@@ -975,7 +975,7 @@ func (s *SuperAgent) End(callback ...func(response Response, body string, errs [
 }
 
 // EndBytes should be used when you want the body as bytes. The callbacks work the same way as with `End`, except that a byte array is used instead of a string.
-func (s *SuperAgent) EndBytes(callback ...func(response Response, body []byte, errs []error)) (Response, []byte, []error) {
+func (s *SuperAgent) EndBytes(callback ...func(response Response, body []byte, errs []error)) (*http.Response, []byte, []error) {
 	var (
 		errs []error
 		resp Response
@@ -1036,7 +1036,7 @@ func (s *SuperAgent) EndStruct(v interface{}, callback ...func(response Response
 	return resp, body, nil
 }
 
-func (s *SuperAgent) getResponseBytes() (Response, []byte, []error) {
+func (s *SuperAgent) getResponseBytes() (*http.Response, []byte, []error) {
 	var (
 		req  *http.Request
 		err  error
